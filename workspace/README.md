@@ -16,14 +16,19 @@ locals {
       concurrency = 10
     }
   }
+
 }
 ```
 
 And then pick the relevant variable based on the current workspace:
 
 ```
-resource foo "foo" {
+locals {
   concurrency = local.environment_config[terraform.workspace].concurrency
+}
+
+resource foo "foo" {
+  concurrency = local.concurrency
 }
 ```
 
