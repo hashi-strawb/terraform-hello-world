@@ -1,5 +1,32 @@
 # What's my current workspace?
 
+You can use the `terraform.workspace` variable to find your current workspace.
+
+You can then use this as part of other terraform code, to conditionally do things differently depending on the workspace.
+
+For example, you could have a `local` defined as such:
+
+```
+locals {
+  environment_config = {
+    "dev" = {
+      concurrency = 5
+    }
+    "prod" = {
+      concurrency = 10
+    }
+  }
+}
+```
+
+And then pick the relevant variable based on the current workspace:
+
+```
+resource foo "foo" {
+  concurrency = local.environment_config[terraform.workspace].concurrency
+}
+```
+
 ## Locally
 
 Locally, with no workspaces set:
